@@ -184,7 +184,7 @@ class ComputeEngineInstance(object):
     def status(self):
         if datetime.datetime.now() - self.info_ts > self.stale_after:
             self.refresh()
-        return self.info['status']
+        return InstanceStatus(self.info['status'])
 
     def wait_for_operation(self, operation):
         return wait_for_operation(
@@ -192,8 +192,7 @@ class ComputeEngineInstance(object):
         )
 
     def wait_for_status(self, statuses):
-        if not isinstance(statuses, (types.ListType, types.TupleType)):
-            statuses = [statuses]
+        statuses = self.format_status(statuses)
         previous_status = None
         while True:
             if not self.status == previous_status:
@@ -202,6 +201,12 @@ class ComputeEngineInstance(object):
                 break
             previous_status = self.status
             time.sleep(TIME_SLEEP_WAIT_FOR_STATUS)
+
+    @staticmethod
+    def format_status(statuses):
+        if not isinstance(statuses, (types.ListType, types.TupleType, set, frozenset)):
+            statuses = [statuses]
+        return frozenset(InstanceStatus(status) for status in statuses)
 
     def start(self):
         logger.info("[%s %s] Starting Instance.", self.__class__.__name__, self.name)
