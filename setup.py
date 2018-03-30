@@ -5,6 +5,10 @@ import setuptools.command.test
 import sys
 
 
+__version__ = 'UNKNOWN'
+execfile('version.py')
+
+
 def long_description():
     try:
         return codecs.open('README.md', 'r', 'utf-8').read()
@@ -47,14 +51,14 @@ class PyTest(setuptools.command.test.test):
 setuptools.setup(
     name='jam',
     packages=['jam'],
-    version='0.0.1',
+    version=__version__,
     description='A Jenkins Agent Manager for Google Compute Engine',
     long_description=long_description(),
     author='Samuel GIFFARD',
     author_email='mulugruntz@gmail.com',
     license='MIT',
     url='https://github.com/Mulugruntz/jam',
-    download_url='https://github.com/Mulugruntz/jam/tarball/0.0.1',
+    download_url='https://github.com/Mulugruntz/jam/tarball/{}'.format(__version__),
     keywords=['jenkins', 'gce', 'google', 'compute', 'engine'],
     classifiers=[
         'Development Status :: 3 - Alpha',
