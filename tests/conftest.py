@@ -16,17 +16,19 @@ def pytest_configure(config):
 
 
 class HttpMockIterableSequence(HttpMockSequence):
-    """Gives two improvements over :class:`googleapiclient.http.HttpMockSequence`:
+    """Gives three improvements over :class:`googleapiclient.http.HttpMockSequence`:
 
         * Accepts now iterators. Useful to avoid loading all resources at once.
         * The content of the response now accepts the following extra value:
             `file:a/b/c/myfile.ext` => The response will be read from `a/b/c/myfile.ext`
+        * The last element gets repeated indefinitely.
 
     """
     def __init__(self, iterable):
         super(HttpMockIterableSequence, self).__init__(
             iterable if isinstance(iterable, six.Iterator) else iter(iterable),
         )
+        self.prev = None, None
 
     def request(self, uri,  # noqa: C901
                 method='GET',
@@ -34,7 +36,10 @@ class HttpMockIterableSequence(HttpMockSequence):
                 headers=None,
                 redirections=1,
                 connection_type=None):
-        resp, content = self._iterable.next()
+        try:
+            resp, content = self._iterable.next()
+        except StopIteration:
+            resp, content = self.prev
         if content == 'echo_request_headers':
             content = headers
         elif content == 'echo_request_headers_as_json':
@@ -53,6 +58,7 @@ class HttpMockIterableSequence(HttpMockSequence):
                 logger.debug('Reading file %s', content[len('file:'):])
                 with open(content[len('file:'):], 'r') as f:
                     content = f.read()
+        self.prev = resp, content
         return httplib2.Response(resp), content
 
 
