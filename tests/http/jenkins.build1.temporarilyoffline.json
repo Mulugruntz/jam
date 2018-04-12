@@ -3,6 +3,17 @@
   "actions": [
     {}
   ],
+  "assignedLabels": [
+    {
+      "name": "agent"
+    },
+    {
+      "name": "build1"
+    },
+    {
+      "name": "windows-agent"
+    }
+  ],
   "description": "",
   "displayName": "build1",
   "executors": [
