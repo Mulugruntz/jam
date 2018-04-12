@@ -90,7 +90,8 @@ class JenkinsAgent(ApiCallMixin):
     def __init__(self, url, name, auth=None, crumb_url=None):
         self.url = '{}/computer/{}'.format(url, name)
         self.name = name
-        self.info = None
+        self.labels = set()
+        self.info = {}
         self.auth = auth
         self.crumb_url = crumb_url
         self.api_settings = self.ApiCallSettings(base_url=self.url, auth=self.auth, crumb_url=self.crumb_url)
@@ -136,9 +137,13 @@ class JenkinsAgent(ApiCallMixin):
             time.sleep(self.WAIT_TIME_FORCE_LAUNCH)
         logger.info("[%s %s] Agent is launched.", self.__class__.__name__, self.name)
 
+    def _update_labels(self):
+        self.labels = set(label_data['name'] for label_data in self.info.get('assignedLabels', []))
+
     def refresh(self):
         try:
             self.info = self.api_call('get', 'api/json').json()
+            self._update_labels()
         except requests.ConnectionError:
             logger.exception("[%s %s] Impossible to get information about this agent!",
                              self.__class__.__name__, self.name)

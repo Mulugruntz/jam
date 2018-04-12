@@ -140,3 +140,33 @@ def test_stop(jenkins_agent):
         with mock.patch.object(jam.libs.jenkins.JenkinsAgent, 'api_call') as mock_api_call:
             jenkins_agent.stop()
         mock_api_call.assert_called_once_with('post', 'doDisconnect?offlineMessage=jam.stop')
+
+
+def test_labels_several(jenkins_agent):
+    with requests_mock.mock() as rmock:
+        tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
+        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+            {
+                'json': json.load(open('tests/http/jenkins.build1.busy.json')),
+                'status_code': 200
+            },
+        ])
+
+        assert jenkins_agent.labels == set()
+        jenkins_agent.refresh()
+        assert jenkins_agent.labels == {'agent', 'build1', 'windows-agent'}
+
+
+def test_labels_none(jenkins_agent):
+    with requests_mock.mock() as rmock:
+        tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
+        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+            {
+                'json': json.load(open('tests/http/jenkins.build2.offline-terminated.json')),
+                'status_code': 200
+            },
+        ])
+
+        assert jenkins_agent.labels == set()
+        jenkins_agent.refresh()
+        assert jenkins_agent.labels == set()
