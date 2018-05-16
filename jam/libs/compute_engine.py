@@ -98,7 +98,7 @@ class ComputeEngine(object):
     def compute(self):
         if self.__compute is None:
             if self.http is None:
-                self.credentials = oauth2client.client.GoogleCredentials.get_application_default()
+                self.credentials = oauth2client.client.GoogleCredentials.get_application_default()  # pragma: no cover
             self.__compute = googleapiclient.discovery.build(
                 'compute', 'v1', credentials=self.credentials, cache_discovery=False, http=self.http
             )
@@ -174,11 +174,16 @@ class ComputeEngineInstance(object):
             self.info_ts = datetime.datetime.now()
         except googleapiclient.errors.HttpError as err:
             content = json.loads(err.content)
-            for error in content.get('error', {}).get('errors', []):
+            errors = content.get('error', {}).get('errors', [])
+            for error in errors:
                 if error['reason'] == 'notFound':
                     raise InstanceNotFound(
                         "Instance {} does not exist in project {}".format(self.name, self.project)
                     )
+            else:
+                raise ComputeEngineError("Unknown error with Instance {} in project {}: {}".format(  # pragma: no cover
+                    self.name, self.project, errors,
+                ))
 
     @property
     def status(self):
