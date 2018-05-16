@@ -1,29 +1,17 @@
 import pytest
 
-import jam.libs.core
 import tests.conftest
 import tests.helpers.helpers_jenkins
+import tests.helpers.helpers_core
 import tests.compute_engine.conftest
 import tests.jenkins.conftest
 
 
-def get_jam():
-    manager = jam.libs.core.Jam(
-        jenkins_url=tests.helpers.helpers_jenkins.get_base_url(),
-        jenkins_username='user',
-        jenkins_api_token='pass',
-        project='jam-project',
-        gce_zone='europe-west1-b',
-        usable_nodes=['build1', 'build2'],
-    )
-    return manager
-
-
 @pytest.fixture
 def node():
-    return get_jam().nodes['build1']
+    return tests.helpers.helpers_core.get_jam().nodes['build1']
 
 
 @pytest.fixture
 def jenkins_agent_manager():
-    return get_jam()
+    return tests.helpers.helpers_core.get_jam()
