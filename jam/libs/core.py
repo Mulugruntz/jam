@@ -88,7 +88,7 @@ class Jam(object):
         offline_nodes = self.offline_nodes
         idle_or_starting_nodes = jam.libs.utils.merge_dicts(self.idle_nodes, self.starting_nodes)
         if offline_nodes:
-            nb_to_start_up = max(min(len(offline_nodes), len(jobs)) - len(idle_or_starting_nodes), 0)
+            nb_to_start_up = max(min(len(offline_nodes), len(jobs) - len(idle_or_starting_nodes)), 0)
             selected_offline_nodes = {
                 name: offline_nodes[name]
                 for name in random.sample(offline_nodes, nb_to_start_up)
@@ -186,9 +186,9 @@ class Node(object):
         logger.info("[%s %s] Switching off.", self.__class__.__name__, self.name)
         if self.agent.is_online:
             self.agent.stop()
-            if self.instance.status in [InstanceStatus.PROVISIONING, InstanceStatus.STAGING, InstanceStatus.RUNNING]:
-                self.instance.stop()
-                self.instance.wait_for_status(
-                    [InstanceStatus.STOPPED, InstanceStatus.SUSPENDED, InstanceStatus.TERMINATED]
-                )
+        if self.instance.status in [InstanceStatus.PROVISIONING, InstanceStatus.STAGING, InstanceStatus.RUNNING]:
+            self.instance.stop()
+            self.instance.wait_for_status(
+                [InstanceStatus.STOPPED, InstanceStatus.SUSPENDED, InstanceStatus.TERMINATED]
+            )
         logger.info("[%s %s] The Node is off.", self.__class__.__name__, self.name)

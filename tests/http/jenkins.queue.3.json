@@ -1,0 +1,93 @@
+{
+  "_class": "hudson.model.Queue",
+  "discoverableItems": [],
+  "items": [
+    {
+      "_class": "hudson.model.Queue$BlockedItem",
+      "actions": [
+        {
+          "_class": "hudson.model.CauseAction",
+          "causes": [
+            {
+              "_class": "hudson.triggers.TimerTrigger$TimerTriggerCause",
+              "shortDescription": "Started by timer"
+            }
+          ]
+        },
+        {}
+      ],
+      "blocked": true,
+      "buildable": false,
+      "id": 841,
+      "inQueueSince": 1521145920546,
+      "params": "",
+      "stuck": false,
+      "task": {
+        "_class": "hudson.model.FreeStyleProject",
+        "name": "Jam",
+        "url": "mock://jenkins.mydomain.com:8080/job/Jam/",
+        "color": "red_anime"
+      },
+      "url": "queue/item/841/",
+      "why": "Build #66 is already in progress (ETA:2 hr 25 min)",
+      "buildableStartMilliseconds": 1521145920550
+    },
+    {
+      "_class": "hudson.model.Queue$BuildableItem",
+      "actions": [
+        {}
+      ],
+      "blocked": false,
+      "buildable": true,
+      "id": 843,
+      "inQueueSince": 1521146001741,
+      "params": "",
+      "stuck": false,
+      "task": {
+        "_class": "org.jenkinsci.plugins.workflow.support.steps.ExecutorStepExecution$PlaceholderTask"
+      },
+      "url": "queue/item/843/",
+      "why": "Jenkins is reserved for jobs with matching label expression; build1 is offline; build2 is offline",
+      "buildableStartMilliseconds": 1521146001750,
+      "pending": false
+    },
+    {
+      "_class": "hudson.model.Queue$BuildableItem",
+      "actions": [
+        {}
+      ],
+      "blocked": false,
+      "buildable": true,
+      "id": 844,
+      "inQueueSince": 1521146001741,
+      "params": "",
+      "stuck": false,
+      "task": {
+        "_class": "org.jenkinsci.plugins.workflow.support.steps.ExecutorStepExecution$PlaceholderTask"
+      },
+      "url": "queue/item/844/",
+      "why": "Jenkins is reserved for jobs with matching label expression; build1 is offline; build2 is offline",
+      "buildableStartMilliseconds": 1521146001750,
+      "pending": false
+    },
+    {
+      "_class": "hudson.model.Queue$BuildableItem",
+      "actions": [
+        {}
+      ],
+      "blocked": false,
+      "buildable": true,
+      "id": 845,
+      "inQueueSince": 1521146001741,
+      "params": "",
+      "stuck": false,
+      "task": {
+        "_class": "org.jenkinsci.plugins.workflow.support.steps.ExecutorStepExecution$PlaceholderTask"
+      },
+      "url": "queue/item/845/",
+      "why": "Jenkins is reserved for jobs with matching label expression; build1 is offline; build2 is offline",
+      "buildableStartMilliseconds": 1521146001750,
+      "pending": false
+    }
+  ]
+}

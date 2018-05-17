@@ -1,0 +1,68 @@
+{
+  "_class": "hudson.slaves.SlaveComputer",
+  "actions": [
+    {}
+  ],
+  "assignedLabels": [
+    {
+      "name": "agent"
+    },
+    {
+      "name": "build2"
+    },
+    {
+      "name": "windows-agent"
+    }
+  ],
+  "description": "",
+  "displayName": "build2",
+  "executors": [
+    {}
+  ],
+  "icon": "computer.png",
+  "iconClassName": "icon-computer",
+  "idle": true,
+  "jnlpAgent": false,
+  "launchSupported": true,
+  "loadStatistics": {
+    "_class": "hudson.model.Label$1"
+  },
+  "manualLaunchAllowed": true,
+  "monitorData": {
+    "hudson.node_monitors.SwapSpaceMonitor": {
+      "_class": "hudson.node_monitors.SwapSpaceMonitor$MemoryUsage2",
+      "availablePhysicalMemory": 60708937728,
+      "availableSwapSpace": 60136038400,
+      "totalPhysicalMemory": 64424050688,
+      "totalSwapSpace": 65497792512
+    },
+    "hudson.node_monitors.TemporarySpaceMonitor": {
+      "_class": "hudson.node_monitors.DiskSpaceMonitorDescriptor$DiskSpace",
+      "timestamp": 1521196191500,
+      "path": "C:\\Users\\user\\AppData\\Local\\Temp",
+      "size": 25337372672
+    },
+    "hudson.node_monitors.DiskSpaceMonitor": {
+      "_class": "hudson.node_monitors.DiskSpaceMonitorDescriptor$DiskSpace",
+      "timestamp": 1521196190146,
+      "path": "C:\\jenkins",
+      "size": 25337372672
+    },
+    "hudson.node_monitors.ArchitectureMonitor": "Windows Server 2016 (amd64)",
+    "hudson.node_monitors.ResponseTimeMonitor": {
+      "_class": "hudson.node_monitors.ResponseTimeMonitor$Data",
+      "timestamp": 1521196190148,
+      "average": 1172
+    },
+    "hudson.node_monitors.ClockMonitor": {
+      "_class": "hudson.util.ClockDifference",
+      "diff": 0
+    }
+  },
+  "numExecutors": 1,
+  "offline": false,
+  "offlineCause": null,
+  "offlineCauseReason": "",
+  "oneOffExecutors": [],
+  "temporarilyOffline": false
+}
