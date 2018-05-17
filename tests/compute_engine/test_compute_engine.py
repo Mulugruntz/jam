@@ -1,8 +1,20 @@
 import pytest
+from googleapiclient.errors import HttpError
 
 import jam.libs.compute_engine
 from jam.libs.compute_engine import InstanceStatus
 import tests.helpers.helpers_compute_engine
+
+
+def test_compute_engine_wait_for_operation(compute_engine, http_sequence_factory):
+    http = http_sequence_factory([
+        ({'status': '200'}, 'file:tests/http/compute-discovery.json'),
+        ({'status': '404'}, 'file:tests/http/compute.operations.get-invalid.json'),
+    ])
+    compute_engine.http = http
+    with tests.helpers.helpers_compute_engine.no_pause():
+        with pytest.raises(HttpError):
+            compute_engine.wait_for_operation({'name': 'invalid_id'})
 
 
 def test_compute_engine_list_all_instances(compute_engine, http_sequence_factory):
@@ -63,6 +75,7 @@ def test_compute_engine_start_instance(compute_engine, http_sequence_factory):
         ({'status': '200'}, 'file:tests/http/compute-discovery.json'),
         ({'status': '200'}, 'file:tests/http/compute.instances.get.build1-terminated.json'),
         ({'status': '200'}, 'file:tests/http/compute.instances.start.build1.json'),
+        ({'status': '200'}, 'file:tests/http/compute.operations.get-start-running.json'),
         ({'status': '200'}, 'file:tests/http/compute.operations.get-start-running.json'),
         ({'status': '200'}, 'file:tests/http/compute.operations.get-start-done.json'),
         ({'status': '200'}, 'file:tests/http/compute.instances.get.build1-running.json'),

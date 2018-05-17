@@ -1,0 +1,13 @@
+{
+ "error": {
+  "errors": [
+   {
+    "domain": "global",
+    "reason": "notFound",
+    "message": "The resource 'projects/jam-project/zones/europe-west1-b/operations/invalid_id' was not found"
+   }
+  ],
+  "code": 404,
+  "message": "The resource 'projects/jam-project/zones/europe-west1-b/operations/invalid_id' was not found"
+ }
+}
