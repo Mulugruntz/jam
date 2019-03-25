@@ -9,7 +9,7 @@ pytest-cov = "==2.6.1"
 pytest-flake8 = "==1.0.4"
 mock = "==2.0.0"
 requests-mock = "==1.5.2"
-"httplib2" = "==0.11.3"# https://bitbucket.org/ned/coveragepy/issues/578/incomplete-file-path-in-xml-report
+"httplib2" = "==0.12.1"
 
 [packages]
 "enum34" = "==1.1.6"
