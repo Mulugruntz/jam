@@ -1,0 +1,21 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[dev-packages]
+pytest = "==3.6.1"
+pytest-cov = "==2.5.1"
+"pytest-flake8" = "==1.0.1"
+mock = "==2.0.0"
+requests-mock = "==1.5.0"
+"httplib2" = "==0.11.3"# https://bitbucket.org/ned/coveragepy/issues/578/incomplete-file-path-in-xml-report
+
+[packages]
+"enum34" = "==1.1.6"
+google-api-python-client = "==1.6.7"
+requests = "==2.18.4"
+pipfile = "==0.0.2"
+
+[requires]
+python_version = "3.7"

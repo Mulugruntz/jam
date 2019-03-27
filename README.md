@@ -48,15 +48,11 @@ I advise you to check `Delete workspace before build starts`.
 Under `Build`, click on `Add build step` and select `Execute shell`. Then, put the following code:
 
 ```bash
-/usr/bin/env python -m pip install --user --upgrade pip
-/usr/bin/env python -m pip install --user virtualenv
-python -m virtualenv env
-. env/bin/activate
-
 git clone https://github.com/Mulugruntz/jam.git
 cd jam
-pip install -r requirements.txt
+pipenv install
 
+pipenv shell
 export PYTHONPATH=$WORKSPACE:$PYTHONPATH
 
 python jam/startup.py \

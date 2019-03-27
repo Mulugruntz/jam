@@ -1,5 +1,5 @@
 import codecs
-import os
+import pipfile
 import setuptools
 import setuptools.command.test
 import sys
@@ -16,21 +16,17 @@ def long_description():
         return 'Long description error: Missing README.md file'
 
 
-def _strip_comments(l):
-    return l.split('#', 1)[0].strip()
-
-
-def parse_req_file(filename):
-    full_path = os.path.join(os.getcwd(), filename)
-    return [_strip_comments(req) for req in codecs.open(full_path, 'r', 'utf-8').readlines() if req]
+def parse_pipfile(package):
+    pf = pipfile.load('Pipfile')
+    return [f'{pack}{version}' for pack, version in pf.data[package].items()]
 
 
 def install_requires():
-    return parse_req_file('requirements.txt')
+    return parse_pipfile('default')
 
 
 def tests_require():
-    return parse_req_file('requirements_test.txt')
+    return parse_pipfile('develop')
 
 
 class PyTest(setuptools.command.test.test):
@@ -64,7 +60,11 @@ setuptools.setup(
         'Development Status :: 3 - Alpha',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
-        'Programming Language :: Python :: 2.7',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
+        'Programming Language :: Python :: 3 :: Only',
+        'Programming Language :: Python :: Implementation :: PyPy',
+        'Programming Language :: Python :: Implementation :: CPython',
         'Topic :: Software Development :: Libraries',
         'Topic :: System :: Distributed Computing',
         'Topic :: Utilities',

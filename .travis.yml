@@ -1,20 +1,33 @@
 language: python
 
-python:
-  - "2.7"
-  - "pypy"
+matrix:
+  include:
+    - python: 3.6
+    - python: 3.7
+      dist: xenial
+      sudo: true
+#    - python: pypy3.6-7.1.0
 
 env:
-  - CODECLIMATE_REPO_TOKEN=d1bca6bdad77d55f4fa2b299d6478dc325c68729a1a7e64d148fb1281fb5439d
+  global:
+    - CC_TEST_REPORTER_ID=d1bca6bdad77d55f4fa2b299d6478dc325c68729a1a7e64d148fb1281fb5439d
 
 install:
-  - pip install -r requirements.txt
-  - pip install -r requirements_test.txt
+  - pip install pipenv==2018.11.26
+  - pipenv install
+  - pipenv install --dev
+
+before_script:
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
 
 script:
   - THIS_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
   - export PYTHONPATH=$THIS_DIR:$PYTHONPATH
-  - python setup.py test
-  - codeclimate-test-reporter
+  - pipenv run python setup.py test
+
+after_script:
+  - ./cc-test-reporter after-build --exit-code $TRAVIS_TEST_RESULT
 
 sudo: false
