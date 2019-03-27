@@ -8,7 +8,7 @@ import tests.helpers.helpers_jenkins
 def test_crumb_ok(base_url, api_call):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/some/api'.format(base_url), [
+        rmock.register_uri('GET', f'{base_url}/some/api', [
             {'json': {}, 'status_code': 200},
         ])
         assert api_call('get', 'some/api').json() == {}

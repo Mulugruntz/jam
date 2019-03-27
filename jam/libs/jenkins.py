@@ -26,14 +26,15 @@ class ApiCallMixin(object):
 
     def api_call(self, method, api, retries=3):
         if not hasattr(self, 'api_settings') or not isinstance(self.api_settings, self.ApiCallSettings):
-            raise AttributeError("Class %s must have a member called 'api_settings' which should be a %s!".format(
-                self.__class__.__name__, self.ApiCallSettings.__name__
-            ))
-        url = '{base_url}/{api}'.format(base_url=self.api_settings.base_url, api=api)
+            raise AttributeError(
+                f"Class {self.__class__.__name__} must have a member called 'api_settings' "
+                f"which should be a {self.ApiCallSettings.__name__}!"
+            )
+        url = f'{self.api_settings.base_url}/{api}'
         header = '[%s %s]' if hasattr(self, 'name') else '[%s]'
         args = [self.__class__.__name__, self.name] if hasattr(self, 'name') else [self.__class__.__name__]
         args_full = args + [method.upper(), url]
-        logger.debug("{} External API call %s %s".format(header), *args_full)
+        logger.debug(f"{header} External API call %s %s", *args_full)
         exc_info = None
         for retry in range(retries):
             with requests.session() as session:
@@ -44,26 +45,21 @@ class ApiCallMixin(object):
                     })
                 except requests.ConnectionError as err:
                     args_retry_fail = args + [retry + 1, retries]
-                    logger.exception("{} Try %d/%d failed.".format(header), *args_retry_fail)
+                    logger.exception(f"{header} Try %d/%d failed.", *args_retry_fail)
                     exc_info = err
         else:
-            logger.error("{} API call %s %s failed!".format(header), *args_full)
+            logger.error(f"{header} API call %s %s failed!", *args_full)
             raise exc_info
 
 
 class Jenkins(ApiCallMixin):
     def __init__(self, url, username, api_token):
         url_match = re.match(r'^(?P<protocol>.*://)?(?P<bare_url>.*)/?$', url).groupdict()
-        self.url = '{protocol}{bare_url}'.format(
-            protocol=url_match.get('protocol', 'http://'),
-            bare_url=url_match['bare_url'],
-        )
-        self.crumb_url = '{jenkins_url}/crumbIssuer/api/json'.format(
-            jenkins_url=self.url
-        )
+        self.url = f"{url_match.get('protocol', 'http://')}{url_match['bare_url']}"
+        self.crumb_url = f'{self.url}/crumbIssuer/api/json'
         self.agents = collections.OrderedDict()
         self.auth = (username, api_token)
-        self.job_url = os.getenv('JOB_URL', '{jenkins_url}/job/Jam/'.format(jenkins_url=self.url))
+        self.job_url = os.getenv('JOB_URL', f'{self.url}/job/Jam/')
         self.api_settings = self.ApiCallSettings(base_url=self.url, auth=self.auth, crumb_url=self.crumb_url)
 
     def get_agent(self, name):
@@ -88,7 +84,7 @@ class JenkinsAgent(ApiCallMixin):
     WAIT_TIME_FORCE_LAUNCH = 15
 
     def __init__(self, url, name, auth=None, crumb_url=None):
-        self.url = '{}/computer/{}'.format(url, name)
+        self.url = f'{url}/computer/{name}'
         self.name = name
         self.labels = set()
         self.info = {}
@@ -123,7 +119,7 @@ class JenkinsAgent(ApiCallMixin):
             return None
         if self.info['offlineCause']['_class'] in self.QUIET_OFFLINE_CAUSES:
             return self.info['offlineCause']['_class']
-        return '{} || {}'.format(self.info['offlineCause']['_class'], self.info['offlineCauseReason'])
+        return f"{self.info['offlineCause']['_class']} || {self.info['offlineCauseReason']}"
 
     def force_launch(self):
         while not self.is_online:

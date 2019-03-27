@@ -111,20 +111,20 @@ def test_nodes(jenkins_agent_manager, node1, node2):
     jenkins_agent_manager.compute_engine.http = tests.conftest.HttpMockIterableSequence([
         ({'status': '200'}, 'file:tests/http/compute-discovery.json'),
     ] + [
-        ({'status': '200'}, 'file:tests/http/compute.instances.get.{name}-{status}.json'.format(
-            name=node['data'].name, status=node['data'].gce_file_status
-        )) for node in nodes
+        (
+            {'status': '200'},
+            f"file:tests/http/compute.instances.get.{node['data'].name}-{node['data'].gce_file_status}.json"
+        )
+        for node in nodes
     ])
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
         for node in nodes:
-            rmock.register_uri('GET', '{url}/computer/{name}/api/json'.format(
-                url=jenkins_agent_manager.jenkins_url, name=node['data'].name
-            ), [
+            rmock.register_uri('GET', f"{jenkins_agent_manager.jenkins_url}/computer/{node['data'].name}/api/json", [
                 {
-                    'json': json.load(open('tests/http/jenkins.{name}.{status}.json'.format(
-                        name=node['data'].name, status=node['data'].jenkins_file_status
-                    ))),
+                    'json': json.load(open(
+                        f"tests/http/jenkins.{node['data'].name}.{node['data'].jenkins_file_status}.json"
+                    )),
                     'status_code': 200
                 },
             ])
@@ -155,9 +155,7 @@ def test_set_an_offline_node_on(jenkins_agent_manager):
     with requests_mock.mock() as rmock, tests.helpers.helpers_core.no_pause():
         node = jenkins_agent_manager.nodes['build1']
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{url}/computer/build1/api/json'.format(
-            url=jenkins_agent_manager.jenkins_url
-        ), [
+        rmock.register_uri('GET', f'{jenkins_agent_manager.jenkins_url}/computer/build1/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')),
                 'status_code': 200
@@ -171,13 +169,13 @@ def test_set_an_offline_node_on(jenkins_agent_manager):
                 'status_code': 200
             },
         ])
-        rmock.register_uri('POST', '{}/launchSlaveAgent'.format(node.agent.url), [
+        rmock.register_uri('POST', f'{node.agent.url}/launchSlaveAgent', [
             {
-                'headers': {'Location': '{}/log'.format(node.agent.url)},
+                'headers': {'Location': f'{node.agent.url}/log'},
                 'status_code': 302,
             },
         ])
-        rmock.register_uri('GET', '{}/log'.format(node.agent.url), [
+        rmock.register_uri('GET', f'{node.agent.url}/log', [
             {
                 'text': '<html><head/><body>Some mocked shortened response!</body></html>',
                 'status_code': 200,
@@ -198,9 +196,7 @@ def test_set_an_online_node_on_does_nothing(jenkins_agent_manager):
     with requests_mock.mock() as rmock, tests.helpers.helpers_core.no_pause():
         node = jenkins_agent_manager.nodes['build1']
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{url}/computer/build1/api/json'.format(
-            url=jenkins_agent_manager.jenkins_url
-        ), [
+        rmock.register_uri('GET', f'{jenkins_agent_manager.jenkins_url}/computer/build1/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.idle.json')),
                 'status_code': 200
@@ -227,9 +223,7 @@ def test_set_an_online_node_off(jenkins_agent_manager):
     with requests_mock.mock() as rmock, tests.helpers.helpers_core.no_pause():
         node = jenkins_agent_manager.nodes['build1']
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{url}/computer/build1/api/json'.format(
-            url=jenkins_agent_manager.jenkins_url
-        ), [
+        rmock.register_uri('GET', f'{jenkins_agent_manager.jenkins_url}/computer/build1/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.idle.json')),
                 'status_code': 200
@@ -243,13 +237,13 @@ def test_set_an_online_node_off(jenkins_agent_manager):
                 'status_code': 200
             },
         ])
-        rmock.register_uri('POST', '{}/doDisconnect?offlineMessage=jam.stop'.format(node.agent.url), [
+        rmock.register_uri('POST', f'{node.agent.url}/doDisconnect?offlineMessage=jam.stop', [
             {
-                'headers': {'Location': '{}/log'.format(node.agent.url)},
+                'headers': {'Location': f'{node.agent.url}/log'},
                 'status_code': 302,
             },
         ])
-        rmock.register_uri('GET', '{}/log'.format(node.agent.url), [
+        rmock.register_uri('GET', f'{node.agent.url}/log', [
             {
                 'text': '<html><head/><body>Some mocked shortened response!</body></html>',
                 'status_code': 200,
@@ -270,9 +264,7 @@ def test_set_an_offline_node_off_does_nothing(jenkins_agent_manager):
     with requests_mock.mock() as rmock, tests.helpers.helpers_core.no_pause():
         node = jenkins_agent_manager.nodes['build1']
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{url}/computer/build1/api/json'.format(
-            url=jenkins_agent_manager.jenkins_url
-        ), [
+        rmock.register_uri('GET', f'{jenkins_agent_manager.jenkins_url}/computer/build1/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')),
                 'status_code': 200

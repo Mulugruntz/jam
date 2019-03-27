@@ -179,14 +179,13 @@ class ComputeEngineInstance(object):
             for error in errors:
                 if error['reason'] == 'notFound':
                     raise InstanceNotFound(
-                        "Instance {} does not exist in project {}".format(self.name, self.project)
+                        f"Instance {self.name} does not exist in project {self.project}"
                     )
                 else:  # pragma: no cover
                     pass  # These two lines are just for the branch coverage without deactivating the if branch.
             else:
-                raise ComputeEngineError("Unknown error with Instance {} in project {}: {}".format(  # pragma: no cover
-                    self.name, self.project, errors,
-                ))
+                # pragma: no cover
+                raise ComputeEngineError(f"Unknown error with Instance {self.name} in project {self.project}: {errors}")
 
     @property
     def status(self):
@@ -204,7 +203,7 @@ class ComputeEngineInstance(object):
         previous_status = None
         while True:
             if not self.status == previous_status:
-                logger.info('[%s %s] Instance is {}'.format(self.status), self.__class__.__name__, self.name)
+                logger.info(f'[%s %s] Instance is {self.status}', self.__class__.__name__, self.name)
             if self.status in statuses:
                 break
             previous_status = self.status

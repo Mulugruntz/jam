@@ -2,7 +2,7 @@ import json
 
 
 def get_crumb_url():
-    return '{}/crumbIssuer/api/json'.format(get_base_url())
+    return f'{get_base_url()}/crumbIssuer/api/json'
 
 
 def get_base_url():
@@ -20,7 +20,7 @@ def headers_to_dict(header_file):
         for header in headers:
             key, value = header.split(': ', 1)
             if key in headers_dict:
-                raise KeyError('key {} is present twice in header file {}'.format(key, header_file))
+                raise KeyError(f'key {key} is present twice in header file {header_file}')
             headers_dict[key] = value
     return headers_dict
 

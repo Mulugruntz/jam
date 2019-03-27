@@ -136,9 +136,7 @@ class Node(object):
         :param libs.compute_engine.ComputeEngineInstance instance:
         """
         if not agent.name == instance.name:
-            raise ValueError(
-                "Agent and Instance must have the same name ({} is not {})".format(agent.name, instance.name)
-            )
+            raise ValueError(f"Agent and Instance must have the same name ({agent.name} is not {instance.name})")
         self.name = agent.name
         self.agent = agent
         self.instance = instance

@@ -35,9 +35,7 @@ def random_ip():
 
     :return str: a random IP address.
     """
-    return '{}.{}.{}.{}'.format(
-        random.randint(0, 255), random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
-    )
+    return f'{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}.{random.randint(0, 255)}'
 
 
 def anonymize_email(root):
@@ -45,7 +43,7 @@ def anonymize_email(root):
     for account in root.get('serviceAccounts', []):
         if 'email' in account:
             # $.serviceAccounts[*].email
-            print('Replacing email {} => {}'.format(account['email'], anon_email))
+            print(f"Replacing email {account['email']} => {anon_email}")
             account['email'] = anon_email
 
 
@@ -54,7 +52,7 @@ def anonymize_ip(root):
         for config in interface.get('accessConfigs', []):
             if 'natIP' in config:
                 # $.networkInterfaces[*].accessConfigs[*].natIP
-                print('Replacing IP {}'.format(config['natIP']))
+                print(f"Replacing IP {config['natIP']}")
                 config['natIP'] = random_ip()
 
 

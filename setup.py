@@ -54,7 +54,7 @@ setuptools.setup(
     author_email='mulugruntz@gmail.com',
     license='MIT',
     url='https://github.com/Mulugruntz/jam',
-    download_url='https://github.com/Mulugruntz/jam/tarball/{}'.format(__version__),
+    download_url=f'https://github.com/Mulugruntz/jam/tarball/{__version__}',
     keywords=['jenkins', 'gce', 'google', 'compute', 'engine'],
     classifiers=[
         'Development Status :: 3 - Alpha',

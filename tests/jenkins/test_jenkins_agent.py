@@ -12,7 +12,7 @@ import tests.helpers.helpers_jenkins
 def test_status_online_idle(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.idle.json')),
                 'status_code': 200
@@ -28,7 +28,7 @@ def test_status_online_idle(jenkins_agent):
 def test_status_online_busy(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.busy.json')),
                 'status_code': 200
@@ -44,7 +44,7 @@ def test_status_online_busy(jenkins_agent):
 def test_status_is_temporarilyoffline(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.temporarilyoffline.json')),
                 'status_code': 200
@@ -60,7 +60,7 @@ def test_status_is_temporarilyoffline(jenkins_agent):
 def test_status_is_offline(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')),
                 'status_code': 200
@@ -76,7 +76,7 @@ def test_status_is_offline(jenkins_agent):
 def test_status_is_offline_long_causereason(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.offline-long-causereason.json')),
                 'status_code': 200
@@ -101,7 +101,7 @@ def test_force_launch(jenkins_agent):
     with mock.patch('jam.libs.jenkins.JenkinsAgent.WAIT_TIME_FORCE_LAUNCH', 0):
         with requests_mock.mock() as rmock:
             tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-            rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+            rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
                 {'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')), 'status_code': 200},
                 {'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')), 'status_code': 200},
                 {'json': json.load(open('tests/http/jenkins.build1.offline-terminated.json')), 'status_code': 200},
@@ -111,13 +111,13 @@ def test_force_launch(jenkins_agent):
                 {'json': json.load(open('tests/http/jenkins.build1.offline-starting-up.json')), 'status_code': 200},
                 {'json': json.load(open('tests/http/jenkins.build1.idle.json')), 'status_code': 200},
             ])
-            rmock.register_uri('POST', '{}/launchSlaveAgent'.format(jenkins_agent.url), [
+            rmock.register_uri('POST', f'{jenkins_agent.url}/launchSlaveAgent', [
                 {
-                    'headers': {'Location': '{}/log'.format(jenkins_agent.url)},
+                    'headers': {'Location': f'{jenkins_agent.url}/log'},
                     'status_code': 302,
                 },
             ])
-            rmock.register_uri('GET', '{}/log'.format(jenkins_agent.url), [
+            rmock.register_uri('GET', f'{jenkins_agent.url}/log', [
                 {
                     'text': '<html><head/><body>Some mocked shortened response!</body></html>',
                     'status_code': 200,
@@ -145,7 +145,7 @@ def test_stop(jenkins_agent):
 def test_labels_several(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build1.busy.json')),
                 'status_code': 200
@@ -160,7 +160,7 @@ def test_labels_several(jenkins_agent):
 def test_labels_none(jenkins_agent):
     with requests_mock.mock() as rmock:
         tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
-        rmock.register_uri('GET', '{}/api/json'.format(jenkins_agent.url), [
+        rmock.register_uri('GET', f'{jenkins_agent.url}/api/json', [
             {
                 'json': json.load(open('tests/http/jenkins.build2.offline-terminated.json')),
                 'status_code': 200

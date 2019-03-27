@@ -127,28 +127,23 @@ def helper_gce_mock(manager, nodes):
     manager.compute_engine.http = tests.conftest.HttpMockIterableSequence([
         ({'status': '200'}, 'file:tests/http/compute-discovery.json'),
     ] + [
-        ({'status': '200'}, 'file:tests/http/compute.instances.get.{name}-{status}.json'.format(
-            name=node.name, status=node.gce_file_status
-        )) for node in nodes
+        ({'status': '200'}, f'file:tests/http/compute.instances.get.{node.name}-{node.gce_file_status}.json')
+        for node in nodes
     ])
 
 
 def helper_jenkins_mock(manager, nodes, rmock, num_jobs):
     tests.helpers.helpers_jenkins.inject_crumb_issuer(rmock, 200)
     for node in nodes:
-        rmock.register_uri('GET', '{url}/computer/{name}/api/json'.format(
-            url=manager.jenkins_url, name=node.name
-        ), [
+        rmock.register_uri('GET', f'{manager.jenkins_url}/computer/{node.name}/api/json', [
             {
-                'json': json.load(open('tests/http/jenkins.{name}.{status}.json'.format(
-                    name=node.name, status=node.jenkins_file_status
-                ))),
+                'json': json.load(open(f'tests/http/jenkins.{node.name}.{node.jenkins_file_status}.json')),
                 'status_code': 200
             },
         ])
-    rmock.register_uri('GET', '{}/queue/api/json'.format(manager.jenkins_url), [
+    rmock.register_uri('GET', f'{manager.jenkins_url}/queue/api/json', [
         {
-            'json': json.load(open('tests/http/jenkins.queue.{}.json'.format(num_jobs))),
+            'json': json.load(open(f'tests/http/jenkins.queue.{num_jobs}.json')),
             'status_code': 200
         },
     ])
