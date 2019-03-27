@@ -22,7 +22,7 @@ class AlmostAlwaysTrue(object):
         self.total_iterations = total_iterations
         self.current_iteration = 0
 
-    def __nonzero__(self):
+    def __bool__(self):
         if self.current_iteration < self.total_iterations:
             self.current_iteration += 1
             return bool(1)
@@ -43,7 +43,7 @@ def test_args_no_node(argv, capsys):
     with pytest.raises(SystemExit):
         jam.startup.parse_args()
     captured = capsys.readouterr()
-    assert 'too few arguments' in captured.err
+    assert 'the following arguments are required: NODE_LIST' in captured.err
 
 
 def test_monitor(argv):

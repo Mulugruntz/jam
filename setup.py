@@ -6,7 +6,7 @@ import sys
 
 
 __version__ = 'UNKNOWN'
-execfile('version.py')
+exec(open('version.py').read())
 
 
 def long_description():

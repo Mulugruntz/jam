@@ -4,9 +4,10 @@ import json
 import logging
 import re
 import time
-import types
 
 import enum
+from typing import Dict, List, Tuple, Set, FrozenSet
+
 import googleapiclient
 import googleapiclient.discovery
 import googleapiclient.errors
@@ -30,7 +31,7 @@ class InstanceNotFound(ComputeEngineError):
 
 def wait_for_operation(compute, project, gce_zone, operation):
     logger.debug('Waiting for operation to finish...')
-    operation = operation['name'] if isinstance(operation, types.DictionaryType) else operation
+    operation = operation['name'] if isinstance(operation, Dict) else operation
     previous_status = None
     while True:
         result = compute.zoneOperations().get(
@@ -130,7 +131,7 @@ class ComputeEngine(object):
         }
         logger.info("[%s %s] Discovered the following instances: %s.",
                     self.__class__.__name__, self.project,
-                    ', '.join(name for name in self.__instances.iterkeys()))
+                    ', '.join(name for name in self.__instances.keys()))
         return self.__instances
 
 
@@ -211,7 +212,7 @@ class ComputeEngineInstance(object):
 
     @staticmethod
     def format_status(statuses):
-        if not isinstance(statuses, (types.ListType, types.TupleType, set, frozenset)):
+        if not isinstance(statuses, (List, Tuple, Set, FrozenSet)):
             statuses = [statuses]
         return frozenset(InstanceStatus(status) for status in statuses)
 

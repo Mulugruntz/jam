@@ -34,7 +34,7 @@ def inject_crumb_issuer(rmock, status_code):
     elif status_code == 401:
         rmock.register_uri('GET', get_crumb_url(), [
             {
-                'body': open('tests/http/jenkins.crumbissuer.401.html'),
+                'body': open('tests/http/jenkins.crumbissuer.401.html', mode='rb'),
                 'status_code': 401,
                 'headers': headers_to_dict(
                     'tests/http/jenkins.crumbissuer.401.headers.txt'
@@ -45,7 +45,7 @@ def inject_crumb_issuer(rmock, status_code):
     elif status_code == 403:
         rmock.register_uri('GET', get_crumb_url(), [
             {
-                'body': open('tests/http/jenkins.crumbissuer.403.html'),
+                'body': open('tests/http/jenkins.crumbissuer.403.html', mode='rb'),
                 'status_code': 403,
                 'headers': headers_to_dict(
                     'tests/http/jenkins.crumbissuer.403.headers.txt'

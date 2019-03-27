@@ -35,7 +35,7 @@ class ApiCallMixin(object):
         args_full = args + [method.upper(), url]
         logger.debug("{} External API call %s %s".format(header), *args_full)
         exc_info = None
-        for retry in xrange(retries):
+        for retry in range(retries):
             with requests.session() as session:
                 try:
                     crumb = self.__perform_crumb_call(session=session)

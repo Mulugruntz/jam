@@ -24,7 +24,7 @@ def test_compute_engine_list_all_instances(compute_engine, http_sequence_factory
     )
     compute_engine.http = http
     with tests.helpers.helpers_compute_engine.no_pause():
-        assert {'build1', 'master'} <= set(compute_engine.instances.iterkeys())
+        assert {'build1', 'master'} <= set(compute_engine.instances.keys())
 
 
 def test_compute_engine_get_instance_exists(compute_engine, http_sequence_factory):

@@ -35,23 +35,23 @@ class Jam(object):
 
     @property
     def idle_nodes(self):
-        return {k: v for k, v in self.nodes.iteritems() if v.is_on and v.agent.is_idle}
+        return {k: v for k, v in self.nodes.items() if v.is_on and v.agent.is_idle}
 
     @property
     def busy_nodes(self):
-        return {k: v for k, v in self.nodes.iteritems() if v.is_on and not v.agent.is_idle}
+        return {k: v for k, v in self.nodes.items() if v.is_on and not v.agent.is_idle}
 
     @property
     def offline_nodes(self):
-        return {k: v for k, v in self.nodes.iteritems() if v.is_off}
+        return {k: v for k, v in self.nodes.items() if v.is_off}
 
     @property
     def starting_nodes(self):
-        return {k: v for k, v in self.nodes.iteritems() if v.is_switching_on}
+        return {k: v for k, v in self.nodes.items() if v.is_switching_on}
 
     @property
     def stopping_nodes(self):
-        return {k: v for k, v in self.nodes.iteritems() if v.is_switching_off}
+        return {k: v for k, v in self.nodes.items() if v.is_switching_off}
 
     def balance_nodes(self):
         jobs = self.jenkins.jobs
@@ -65,21 +65,21 @@ class Jam(object):
             elif len(idle_or_starting_nodes) > len(jobs):
                 logger.info(
                     "[Jam] We have too many idle/starting nodes (%s) for the amount of jobs in the queue (%d).",
-                    ', '.join(idle_or_starting_nodes.iterkeys()),
+                    ', '.join(idle_or_starting_nodes.keys()),
                     len(jobs),
                 )
                 self.scale_down()
             else:
                 logger.info(
                     "[Jam] We do not have enough idle/starting nodes (%s) for the amount of jobs in the queue (%d).",
-                    ', '.join(idle_or_starting_nodes.iterkeys()),
+                    ', '.join(idle_or_starting_nodes.keys()),
                     len(jobs),
                 )
                 self.scale_up()
         elif idle_or_starting_nodes:
             logger.info(
                 "[Jam] We have no jobs in the queue and the following node(s) are idle/starting: %s",
-                ', '.join(idle_or_starting_nodes.iterkeys())
+                ', '.join(idle_or_starting_nodes.keys())
             )
             self.scale_down()
 
@@ -91,16 +91,16 @@ class Jam(object):
             nb_to_start_up = max(min(len(offline_nodes), len(jobs) - len(idle_or_starting_nodes)), 0)
             selected_offline_nodes = {
                 name: offline_nodes[name]
-                for name in random.sample(offline_nodes, nb_to_start_up)
+                for name in random.sample(list(offline_nodes), nb_to_start_up)
             }
             logger.info(
-                "[Jam] The following nodes will be switched on: %s", ', '.join(selected_offline_nodes.iterkeys())
+                "[Jam] The following nodes will be switched on: %s", ', '.join(selected_offline_nodes.keys())
             )
-            for node in selected_offline_nodes.itervalues():
+            for node in selected_offline_nodes.values():
                 node.on()  # TODO: put in thread
         else:
             logger.info("[Jam] There are currently no offline nodes.")
-            logger.info("[Jam] Currently busy nodes: %s", ', '.join(self.busy_nodes.iterkeys()))
+            logger.info("[Jam] Currently busy nodes: %s", ', '.join(self.busy_nodes.keys()))
 
     def scale_down(self):
         jobs = self.jenkins.jobs
@@ -109,12 +109,12 @@ class Jam(object):
             nb_to_shutdown = max(len(idle_nodes) - len(jobs), 0)
             selected_idle_nodes = {
                 name: idle_nodes[name]
-                for name in random.sample(idle_nodes, nb_to_shutdown)
+                for name in random.sample(list(idle_nodes), nb_to_shutdown)
             }
             logger.info(
-                "[Jam] The following nodes will be switched off: %s", ', '.join(selected_idle_nodes.iterkeys())
+                "[Jam] The following nodes will be switched off: %s", ', '.join(selected_idle_nodes.keys())
             )
-            for node in selected_idle_nodes.itervalues():
+            for node in selected_idle_nodes.values():
                 node.off()  # TODO: put in thread
         else:
             logger.error("[Jam] There is an error in the algorithm!")

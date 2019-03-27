@@ -18,7 +18,7 @@ class ItemClass(enum.Enum):
     UNKNOWN = 'unknown'
 
 
-REVERSED_ITEM_CLASS = {ic.value: ic for ic in ItemClass.__members__.itervalues()}
+REVERSED_ITEM_CLASS = {ic.value: ic for ic in ItemClass.__members__.values()}
 
 
 class ApiType(enum.Enum):
@@ -27,7 +27,7 @@ class ApiType(enum.Enum):
     UNKNOWN = 'unknown'
 
 
-REVERSED_ITEM_KIND = {ik.value: ik for ik in ItemKind.__members__.itervalues()}
+REVERSED_ITEM_KIND = {ik.value: ik for ik in ItemKind.__members__.values()}
 
 
 def random_ip():
@@ -45,7 +45,7 @@ def anonymize_email(root):
     for account in root.get('serviceAccounts', []):
         if 'email' in account:
             # $.serviceAccounts[*].email
-            print 'Replacing email {} => {}'.format(account['email'], anon_email)
+            print('Replacing email {} => {}'.format(account['email'], anon_email))
             account['email'] = anon_email
 
 
@@ -54,7 +54,7 @@ def anonymize_ip(root):
         for config in interface.get('accessConfigs', []):
             if 'natIP' in config:
                 # $.networkInterfaces[*].accessConfigs[*].natIP
-                print 'Replacing IP {}'.format(config['natIP'])
+                print('Replacing IP {}'.format(config['natIP']))
                 config['natIP'] = random_ip()
 
 

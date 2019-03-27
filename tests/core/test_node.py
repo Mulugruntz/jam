@@ -135,11 +135,11 @@ def test_nodes(jenkins_agent_manager, node1, node2):
             'starting_nodes': frozenset(node['data'].name for node in nodes if node['expected'].starting_nodes),
             'stopping_nodes': frozenset(node['data'].name for node in nodes if node['expected'].stopping_nodes),
         }
-        assert expected['idle_nodes'] == frozenset(jenkins_agent_manager.idle_nodes.keys())
-        assert expected['busy_nodes'] == frozenset(jenkins_agent_manager.busy_nodes.keys())
-        assert expected['offline_nodes'] == frozenset(jenkins_agent_manager.offline_nodes.keys())
-        assert expected['starting_nodes'] == frozenset(jenkins_agent_manager.starting_nodes.keys())
-        assert expected['stopping_nodes'] == frozenset(jenkins_agent_manager.stopping_nodes.keys())
+        assert expected['idle_nodes'] == frozenset(list(jenkins_agent_manager.idle_nodes.keys()))
+        assert expected['busy_nodes'] == frozenset(list(jenkins_agent_manager.busy_nodes.keys()))
+        assert expected['offline_nodes'] == frozenset(list(jenkins_agent_manager.offline_nodes.keys()))
+        assert expected['starting_nodes'] == frozenset(list(jenkins_agent_manager.starting_nodes.keys()))
+        assert expected['stopping_nodes'] == frozenset(list(jenkins_agent_manager.stopping_nodes.keys()))
 
 
 def test_set_an_offline_node_on(jenkins_agent_manager):

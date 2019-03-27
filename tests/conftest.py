@@ -1,7 +1,8 @@
+import typing
+
 import pytest
 from googleapiclient.http import HttpMockSequence
 import json
-import six
 import httplib2
 
 import logging
@@ -26,7 +27,7 @@ class HttpMockIterableSequence(HttpMockSequence):
     """
     def __init__(self, iterable):
         super(HttpMockIterableSequence, self).__init__(
-            iterable if isinstance(iterable, six.Iterator) else iter(iterable),
+            iterable if isinstance(iterable, typing.Iterator) else iter(iterable),
         )
         self.prev = None, None
 
@@ -37,7 +38,7 @@ class HttpMockIterableSequence(HttpMockSequence):
                 redirections=1,
                 connection_type=None):
         try:
-            resp, content = self._iterable.next()
+            resp, content = next(self._iterable)
         except StopIteration:
             resp, content = self.prev
         if content == 'echo_request_headers':
@@ -51,13 +52,14 @@ class HttpMockIterableSequence(HttpMockSequence):
                 content = body
         elif content == 'echo_request_uri':
             content = uri
-        if isinstance(content, six.string_types):
-            if isinstance(content, six.text_type):
-                content = content.encode('utf-8')
+        if isinstance(content, (bytes, str)):
+            if isinstance(content, bytes):
+                content = content.decode(encoding='utf-8', errors='backslashreplace')
             if content.startswith('file:'):
                 logger.debug('Reading file %s', content[len('file:'):])
                 with open(content[len('file:'):], 'r') as f:
                     content = f.read()
+            content = content.encode(encoding='utf-8')
         self.prev = resp, content
         return httplib2.Response(resp), content
 
