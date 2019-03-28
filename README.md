@@ -1,4 +1,4 @@
-# jam
+# jam 1.0.0
 Jenkins Agent Manager
 
 
