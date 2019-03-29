@@ -52,10 +52,7 @@ git clone https://github.com/Mulugruntz/jam.git
 cd jam
 pipenv install
 
-pipenv shell
-export PYTHONPATH=$WORKSPACE:$PYTHONPATH
-
-python jam/startup.py \
+PYTHONPATH=$WORKSPACE:$PYTHONPATH pipenv run python jam/startup.py \
   --project=<jam-project> \
   --gce-zone=<gce-zone> \
   --jenkins-url=<http://my_jenkins.url> \
