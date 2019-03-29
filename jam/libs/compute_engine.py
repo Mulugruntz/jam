@@ -183,8 +183,7 @@ class ComputeEngineInstance(object):
                     )
                 else:  # pragma: no cover
                     pass  # These two lines are just for the branch coverage without deactivating the if branch.
-            else:
-                # pragma: no cover
+            else:  # pragma: no cover
                 raise ComputeEngineError(f"Unknown error with Instance {self.name} in project {self.project}: {errors}")
 
     @property
