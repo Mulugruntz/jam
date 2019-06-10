@@ -19,7 +19,7 @@ httplib2 = "==0.12.1"
 
 enum34 = "==1.1.6"
 google-api-python-client = "==1.7.9"
-requests = "==2.21.0"
+requests = "==2.22.0"
 pipfile = "==0.0.2"
 
 
