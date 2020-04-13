@@ -10,7 +10,7 @@ name = "pypi"
 pytest = "==5.4.1"
 pytest-cov = "==2.8.1"
 pytest-flake8 = "==1.0.4"
-mock = "==2.0.0"
+mock = "==4.0.2"
 requests-mock = "==1.5.2"
 httplib2 = "==0.12.1"
 
