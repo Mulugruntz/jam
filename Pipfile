@@ -13,7 +13,7 @@ requests-mock = "==1.5.2"
 
 [packages]
 enum34 = "==1.1.10"
-google-api-python-client = "==1.6.7"
+google-api-python-client = "==2.45.0"
 pipfile = "==0.0.2"
 requests = "==2.21.0"
 
