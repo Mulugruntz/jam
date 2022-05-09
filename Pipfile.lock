@@ -317,11 +317,10 @@
         },
         "requests-mock": {
             "hashes": [
-                "sha256:7a5fa99db5e3a2a961b6f20ed40ee6baeff73503cf0a553cc4d679409e6170fb",
-                "sha256:8ca0628dc66d3f212878932fd741b02aa197ad53fd2228164800a169a4a826af"
+                "sha256:0a2d38a117c08bb78939ec163522976ad59a6b7fdd82b709e23bb98004a44970",
+                "sha256:8d72abe54546c1fc9696fa1516672f1031d72a55a1d66c85184f972a24ba0eba"
             ],
-            "index": "pypi",
-            "version": "==1.5.2"
+            "version": "==1.9.3"
         },
         "six": {
             "hashes": [
