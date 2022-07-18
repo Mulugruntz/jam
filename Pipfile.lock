@@ -287,12 +287,8 @@
             "version": "==3.0.0"
         },
         "pytest-flake8": {
-            "hashes": [
-                "sha256:4d225c13e787471502ff94409dcf6f7927049b2ec251c63b764a4b17447b60c0",
-                "sha256:d7e2b6b274a255b7ae35e9224c85294b471a83b76ecb6bd53c337ae977a499af"
-            ],
-            "index": "pypi",
-            "version": "==1.0.4"
+            "hashes": [],
+            "version": "==1.1.1"
         },
         "requests": {
             "hashes": [],
