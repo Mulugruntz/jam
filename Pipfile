@@ -9,7 +9,7 @@ mock = "==4.0.3"
 pytest = "==7.1.2"
 pytest-cov = "==3.0.0"
 pytest-flake8 = "==1.1.1"
-requests-mock = "==1.5.2"
+requests-mock = "==1.9.3"
 
 [packages]
 enum34 = "==1.1.10"
