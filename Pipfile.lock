@@ -39,10 +39,8 @@
             "version": "==2.104.0"
         },
         "httplib2": {
-            "hashes": [
-                "sha256:4ba6b8fd77d0038769bf3c33c9a96a6f752bc4cdf739701fdcaf210121f399d4"
-            ],
-            "version": "==0.12.1"
+            "hashes": [],
+            "version": "==0.22.0"
         },
         "idna": {
             "hashes": [
@@ -208,10 +206,8 @@
             "version": "==3.7.7"
         },
         "httplib2": {
-            "hashes": [
-                "sha256:4ba6b8fd77d0038769bf3c33c9a96a6f752bc4cdf739701fdcaf210121f399d4"
-            ],
-            "version": "==0.12.1"
+            "hashes": [],
+            "version": "==0.22.0"
         },
         "idna": {
             "hashes": [
