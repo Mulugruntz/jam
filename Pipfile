@@ -1,21 +1,21 @@
 [[source]]
+name = "pypi"
 url = "https://pypi.org/simple"
 verify_ssl = true
-name = "pypi"
 
 [dev-packages]
+httplib2 = "==0.12.1"
+mock = "==2.0.0"
 pytest = "==4.3.1"
 pytest-cov = "==2.6.1"
 pytest-flake8 = "==1.0.4"
-mock = "==2.0.0"
 requests-mock = "==1.5.2"
-"httplib2" = "==0.12.1"
 
 [packages]
-"enum34" = "==1.1.6"
+enum34 = "==1.1.10"
 google-api-python-client = "==1.6.7"
-requests = "==2.21.0"
 pipfile = "==0.0.2"
+requests = "==2.21.0"
 
 [requires]
 python_version = "3.7"
